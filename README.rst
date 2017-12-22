@@ -6,11 +6,11 @@ Mopidy-RadioNet
     :target: https://pypi.python.org/pypi/Mopidy-RadioNet/
     :alt: Latest PyPI version
 
-.. image:: https://img.shields.io/travis/blakberrymamba/mopidy-radionet/master.svg?style=flat
+.. image:: https://img.shields.io/travis/blackberrymamba/mopidy-radionet/master.svg?style=flat
     :target: https://travis-ci.org/blakberrymamba/mopidy-radionet
     :alt: Travis CI build status
 
-.. image:: https://img.shields.io/coveralls/blakberrymamba/mopidy-radionet/master.svg?style=flat
+.. image:: https://img.shields.io/coveralls/blackberrymamba/mopidy-radionet/master.svg?style=flat
    :target: https://coveralls.io/r/blakberrymamba/mopidy-radionet
    :alt: Test coverage
 
@@ -45,16 +45,8 @@ Mopidy-RadioNet to your Mopidy configuration file::
 Project resources
 =================
 
-- `Source code <https://github.com/blakberrymamba/mopidy-radionet>`_
-- `Issue tracker <https://github.com/blakberrymamba/mopidy-radionet/issues>`_
-
-
-Credits
-=======
-
-- Original author: `blakberrymamba <https://github.com/blakberrymamba`__
-- Current maintainer: `blakberrymamba <https://github.com/blakberrymamba`__
-- `Contributors <https://github.com/blakberrymamba/mopidy-radionet/graphs/contributors>`_
+- `Source code <https://github.com/blackberrymamba/mopidy-radionet>`_
+- `Issue tracker <https://github.com/blackberrymamba/mopidy-radionet/issues>`_
 
 
 Changelog
