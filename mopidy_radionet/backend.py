@@ -1,8 +1,13 @@
-import pykka
+from __future__ import unicode_literals
+
 import time
 
 from mopidy import backend
+
+import pykka
+
 import mopidy_radionet
+
 from .library import RadioNetLibraryProvider
 from .radionet import RadioNetClient
 

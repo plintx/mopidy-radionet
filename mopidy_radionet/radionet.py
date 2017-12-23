@@ -1,14 +1,14 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 
 import logging
-import requests
 import re
 import time
 
 from mopidy import httpclient
+
+import requests
 
 
 logger = logging.getLogger(__name__)
@@ -90,7 +90,7 @@ class RadioNetClient(object):
         logger.debug('Radio.net: Check auth.')
         api_sufix = 'user/account'
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Auth error.')
@@ -123,7 +123,7 @@ class RadioNetClient(object):
             'password': password,
         }
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params, data=payload)
+                                     params=url_params, data=payload)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Login error. ' + response.text)
@@ -141,7 +141,7 @@ class RadioNetClient(object):
         }
         api_sufix = 'user/logout'
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Error logout.')
@@ -165,7 +165,7 @@ class RadioNetClient(object):
         api_sufix = 'user/bookmarks'
 
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: ' + response.text)
@@ -179,7 +179,7 @@ class RadioNetClient(object):
 
         for stream in stream_json:
             if int(stream['bitRate']) >= bitrate and \
-                    stream['streamStatus'] == 'VALID':
+               stream['streamStatus'] == 'VALID':
                 stream_url = stream['streamUrl']
                 break
 
@@ -208,10 +208,10 @@ class RadioNetClient(object):
             'station': station_id,
         }
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
         if response.status_code is not 200:
             logger.error('Radio.net: Error on get station by id ' +
-                        str(station_id) + ". Error: " + response.text)
+                         str(station_id) + ". Error: " + response.text)
             return False
         else:
             logger.debug('Radio.net: Done get top stations list')
@@ -234,6 +234,8 @@ class RadioNetClient(object):
             return tmpStation
 
     def get_local_stations(self):
+        self.local_stations = []
+
         api_sufix = 'search/localstations'
 
         url_params = {
@@ -244,11 +246,11 @@ class RadioNetClient(object):
         }
 
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get local stations error. ' +
-                            response.text)
+                         response.text)
         else:
             logger.debug('Radio.net: Done get local stations list')
             json = response.json()
@@ -262,6 +264,7 @@ class RadioNetClient(object):
                         ' local stations.')
 
     def get_top_stations(self):
+        self.top_stations = []
         api_sufix = 'search/topstations'
 
         url_params = {
@@ -272,7 +275,7 @@ class RadioNetClient(object):
         }
 
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get top stations error. ' + response.text)
@@ -300,7 +303,7 @@ class RadioNetClient(object):
             'pageindex': page_index,
         }
         response = self.session.post(self.api_base_url + api_sufix,
-            params=url_params)
+                                     params=url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Search error ' + response.text)

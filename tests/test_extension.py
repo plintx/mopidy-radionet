@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 from mopidy_radionet import Extension
 
 
@@ -20,5 +21,3 @@ def test_get_config_schema():
     assert 'password' in schema
     assert 'language' in schema
     assert 'min_bitrate' in schema
-
-

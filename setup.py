@@ -14,9 +14,9 @@ def get_version(filename):
 setup(
     name='Mopidy-RadioNet',
     version=get_version('mopidy_radionet/__init__.py'),
-    url='https://github.com/blakberrymamba/mopidy-radionet',
+    url='https://github.com/blackberrymamba/mopidy-radionet',
     license='Apache License, Version 2.0',
-    author='blakberrymamba',
+    author='blackberrymamba',
     author_email='mariusz@typedef.pl',
     description='Mopidy extension for radio.net',
     long_description=open('README.rst').read(),

@@ -16,8 +16,8 @@ class RadioNetClientTest(unittest.TestCase):
 
     def test_login(self):
         radionet = RadioNetClient()
-        radionet.login(self.username,self.password)
-        self.assertEqual(radionet.user_login,self.username)
+        radionet.login(self.username, self.password)
+        self.assertEqual(radionet.user_login, self.username)
 
     def test_get_bookmarks(self):
         radionet = RadioNetClient()
@@ -50,8 +50,6 @@ class RadioNetClientTest(unittest.TestCase):
         radionet.do_search("radio ram")
         self.assertGreater(len(radionet.search_results), 0)
 
+
 if __name__ == "__main__":
-
-  unittest.main()
-
-
+    unittest.main()

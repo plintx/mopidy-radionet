@@ -1,8 +1,10 @@
-import pykka
+from __future__ import unicode_literals
+
 import logging
 import re
+
 from mopidy import backend
-from mopidy.models import Album, Artist, Ref, Track, SearchResult
+from mopidy.models import Album, Artist, Ref, SearchResult, Track
 
 logger = logging.getLogger(__name__)
 
@@ -26,9 +28,8 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             album = Album(
                 artists=[artist],
                 images=[radio_data.image],
-                name=radio_data.description + " / " + radio_data.continent +
-                     " / " +
-                     radio_data.country + " - " + radio_data.city,
+                name=radio_data.description + ' / ' + radio_data.continent +
+                ' / ' + radio_data.country + ' - ' + radio_data.city,
                 uri='radionet:station:%s' % (identifier))
 
             track = Track(
@@ -54,17 +55,17 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                 directories.append(
                     self.ref_directory(
                         "radionet:category:favstations", "My stations")
-                        )
+                )
             if self.backend.radionet.local_stations:
                 directories.append(
                     self.ref_directory(
                         "radionet:category:localstations", "Local stations")
-                        )
+                )
             if self.backend.radionet.top_stations:
                 directories.append(
                     self.ref_directory(
                         "radionet:category:top100", "Top 100")
-                        )
+                )
         elif variant == 'category' and identifier:
             if identifier == "favstations":
                 for station in self.backend.radionet.fav_stations:
@@ -93,14 +94,14 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             result.append(self.station_to_track(station))
 
         return SearchResult(
-                        tracks=result
-                        )
+            tracks=result
+        )
 
     def station_to_ref(self, station):
         return Ref.track(
             uri='radionet:station:%s' % (station.id),
             name=station.name,
-            )
+        )
 
     def station_to_track(self, station):
         ref = self.station_to_ref(station)
