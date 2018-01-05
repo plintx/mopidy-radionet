@@ -58,8 +58,6 @@ class RadioNetClient(object):
         self.session.headers.update({'user-agent': full_user_agent})
         self.session.headers.update({'cache-control': 'no-cache'})
 
-        self.get_api_key()
-
     def set_lang(self, lang):
         langs = ['net', 'de', 'at', 'fr', 'pt', 'es', 'dk', 'se', 'it', 'pl']
         if lang in langs:
@@ -78,9 +76,27 @@ class RadioNetClient(object):
         return int(round(time.time() * 1000))
 
     def get_api_key(self):
-        tmp_str = self.session.get(self.base_url)
-        m = re.search('apiKey ?= ?[\'|"](.*)[\'|"];', tmp_str.content)
-        self.api_key = m.group(1).encode()
+        if self.api_key is not None:
+            return
+
+        try:
+            tmp_str = self.session.get(self.base_url)
+            m = re.search('apiKey ?= ?[\'|"](.*)[\'|"];', tmp_str.content)
+            self.api_key = m.group(1).encode()
+            logger.info('Radio.net: APIKEY %s' % self.api_key)
+        except Exception:
+            logger.error('Radio.net: Failed to connect %s retrying'
+                         ' on next browse.' % self.base_url)
+
+    def do_post(self, api_sufix, url_params=None, payload=None):
+        self.get_api_key()
+
+        if 'apikey' in url_params.keys():
+            url_params['apikey'] = self.api_key
+
+        response = self.session.post(self.api_base_url + api_sufix,
+                                     params=url_params, data=payload)
+        return response
 
     def check_auth(self):
         url_params = {
@@ -89,18 +105,15 @@ class RadioNetClient(object):
         }
         logger.debug('Radio.net: Check auth.')
         api_sufix = 'user/account'
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
 
-        if response.status_code is not 200:
-            logger.error('Radio.net: Auth error.')
+        response = self.do_post(api_sufix, url_params)
+
+        json = response.json()
+        self.user_login = json['login']
+        if len(self.user_login) == 0:
+            self.auth = False
         else:
-            json = response.json()
-            self.user_login = json['login']
-            if len(self.user_login) == 0:
-                self.auth = False
-            else:
-                self.auth = True
+            self.auth = True
 
     def login(self, username, password):
         self.check_auth()
@@ -122,8 +135,7 @@ class RadioNetClient(object):
             'login': username,
             'password': password,
         }
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params, data=payload)
+        response = self.do_post(api_sufix, url_params, payload)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Login error. ' + response.text)
@@ -140,8 +152,7 @@ class RadioNetClient(object):
             '_': self.current_milli_time(),
         }
         api_sufix = 'user/logout'
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+        response = self.do_post(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Error logout.')
@@ -152,7 +163,7 @@ class RadioNetClient(object):
             else:
                 logger.info('Radio.net: Logout successful.')
 
-        self.session.cookies.clear_session_cookies()
+        self.session.close()
 
     def get_bookmarks(self):
         self.station_bookmarks = None
@@ -164,8 +175,7 @@ class RadioNetClient(object):
         }
         api_sufix = 'user/bookmarks'
 
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+        response = self.do_post(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: ' + response.text)
@@ -207,8 +217,9 @@ class RadioNetClient(object):
             '_': self.current_milli_time(),
             'station': station_id,
         }
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+
+        response = self.do_post(api_sufix, url_params)
+
         if response.status_code is not 200:
             logger.error('Radio.net: Error on get station by id ' +
                          str(station_id) + ". Error: " + response.text)
@@ -245,8 +256,7 @@ class RadioNetClient(object):
             'sizeperpage': 100,
         }
 
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+        response = self.do_post(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get local stations error. ' +
@@ -274,8 +284,7 @@ class RadioNetClient(object):
             'sizeperpage': 100,
         }
 
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+        response = self.do_post(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get top stations error. ' + response.text)
@@ -302,8 +311,8 @@ class RadioNetClient(object):
             'query': query_string,
             'pageindex': page_index,
         }
-        response = self.session.post(self.api_base_url + api_sufix,
-                                     params=url_params)
+
+        response = self.do_post(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Search error ' + response.text)
