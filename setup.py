@@ -26,6 +26,7 @@ setup(
     python_requires='>= 2.7, < 3',
     install_requires=[
         'setuptools',
+        'tornado >= 4.4, < 5',  # Tornado 5 requires Python >= 2.7.9
         'Mopidy >= 1.0',
         'Pykka >= 1.1',
     ],
