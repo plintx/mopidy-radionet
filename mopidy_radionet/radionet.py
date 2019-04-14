@@ -98,6 +98,16 @@ class RadioNetClient(object):
                                      params=url_params, data=payload)
         return response
 
+    def do_get(self, api_sufix, url_params=None):
+        self.get_api_key()
+
+        if 'apikey' in url_params.keys():
+            url_params['apikey'] = self.api_key
+
+        response = self.session.get(self.api_base_url + api_sufix,
+                                     params=url_params)
+        return response
+
     def check_auth(self):
         url_params = {
             'apikey': self.api_key,
@@ -218,7 +228,7 @@ class RadioNetClient(object):
             'station': station_id,
         }
 
-        response = self.do_post(api_sufix, url_params)
+        response = self.do_get(api_sufix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Error on get station by id ' +
