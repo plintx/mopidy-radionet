@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: Pykka
+Version: 2.0.2
+Summary: Pykka is a Python implementation of the actor model
+Home-page: https://www.pykka.org/
+Author: Stein Magnus Jodal
+Author-email: stein.magnus@jodal.no
+License: Apache License, Version 2.0
+Project-URL: Issues, https://github.com/jodal/pykka/issues
+Project-URL: Source, https://github.com/jodal/pykka
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*
+Provides-Extra: dev
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: check-manifest ; extra == 'dev'
+Requires-Dist: flake8 ; extra == 'dev'
+Requires-Dist: flake8-import-order ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: pytest-cov ; extra == 'dev'
+Requires-Dist: pytest-mock ; extra == 'dev'
+Requires-Dist: sphinx ; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme ; extra == 'dev'
+Requires-Dist: tox ; extra == 'dev'
+Requires-Dist: twine ; extra == 'dev'
+Requires-Dist: wheel ; extra == 'dev'
+
+=====
+Pykka
+=====
+
+Pykka is a Python implementation of the `actor model
+<https://en.wikipedia.org/wiki/Actor_model>`_. The actor model introduces some
+simple rules to control the sharing of state and cooperation between execution
+units, which makes it easier to build concurrent applications.
+
+For details and code examples, see the `Pykka documentation
+<https://www.pykka.org/>`_.
+
+Pykka is available from PyPI. To install it, run::
+
+    pip install pykka
+
+Pykka works with CPython 2.7 and 3.5+, as well as PyPy 2.7 and 3.5+.
+
+
+License
+=======
+
+Pykka is copyright 2010-2019 Stein Magnus Jodal and contributors.
+Pykka is licensed under the `Apache License, Version 2.0
+<https://www.apache.org/licenses/LICENSE-2.0>`_.
+
+
+Project resources
+=================
+
+- `Documentation <https://www.pykka.org/>`_
+- `Source code <https://github.com/jodal/pykka>`_
+- `Issue tracker <https://github.com/jodal/pykka/issues>`_
+
+.. image:: https://img.shields.io/pypi/v/Pykka.svg
+    :target: https://pypi.org/project/Pykka/
+    :alt: Latest PyPI version
+
+.. image:: https://img.shields.io/circleci/project/github/jodal/pykka/develop.svg
+    :target: https://circleci.com/gh/jodal/pykka
+    :alt: CircleCI build status
+
+.. image:: https://img.shields.io/readthedocs/pykka.svg
+    :target: https://www.pykka.org/
+    :alt: Read the Docs build status
+
+.. image:: https://img.shields.io/codecov/c/github/jodal/pykka/develop.svg
+    :target: https://codecov.io/gh/jodal/pykka
+    :alt: Test coverage
+
+

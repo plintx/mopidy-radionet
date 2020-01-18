@@ -23,12 +23,12 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     zip_safe=False,
     include_package_data=True,
-    python_requires='>= 2.7, < 3',
+    python_requires='>= 3.7',
     install_requires=[
+        'Mopidy >= 3.0.0',
+        'Pykka >= 2.0.1',
         'setuptools',
-        'tornado >= 4.4, < 5',  # Tornado 5 requires Python >= 2.7.9
-        'Mopidy >= 1.0',
-        'Pykka >= 1.1',
+        'uritools >= 1.0'
     ],
     entry_points={
         'mopidy.ext': [
@@ -40,7 +40,8 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Multimedia :: Sound/Audio :: Players',
     ],
 )
