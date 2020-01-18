@@ -13,6 +13,8 @@ addons:
     sources:
       - mopidy-stable
     packages:
+      - python3-tornado
+      - python3-pykka
       - mopidy
 
 env:
