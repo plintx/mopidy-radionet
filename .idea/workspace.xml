@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a827305c-f450-4dd8-9234-28c4c187e3c8" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mopidy-radionet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mopidy-radionet.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mopidy_radionet/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/mopidy_radionet/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mopidy_radionet/radionet.py" beforeDir="false" afterPath="$PROJECT_DIR$/mopidy_radionet/radionet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tox.ini" beforeDir="false" afterPath="$PROJECT_DIR$/tox.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,9 +105,9 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.adhoctest" />
       <item itemvalue="Python.test_extension" />
       <item itemvalue="Python.test_radionet" />
-      <item itemvalue="Python.adhoctest" />
     </list>
     <recent_temporary>
       <list>

@@ -14,10 +14,10 @@ def get_version(filename):
 setup(
     name='Mopidy-RadioNet',
     version=get_version('mopidy_radionet/__init__.py'),
-    url='https://github.com/blackberrymamba/mopidy-radionet',
+    url='https://github.com/plintx/mopidy-radionet',
     license='Apache License, Version 2.0',
-    author='blackberrymamba',
-    author_email='mariusz@typedef.pl',
+    author='plintx',
+    author_email='mariusz@intx.pl',
     description='Mopidy extension for radio.net',
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests', 'tests.*']),

@@ -51,6 +51,10 @@ Project resources
 
 Changelog
 =========
+v0.2.0 Python 3
+----------------------------------------
+
+- Migration to Python 3.7
 
 v0.1.0 (UNRELEASED)
 ----------------------------------------
