@@ -8,19 +8,21 @@ python:
 virtualenv:
   system_site_packages: true
 
-addons:
-  apt:
-    sources:
-      - mopidy-stable
-    packages:
-      - python3-tornado
-      - python3-pykka
-      - mopidy
+#addons:
+#  apt:
+#    sources:
+#      - mopidy-stable
+#    packages:
+#      - mopidy
 
 env:
   - TOX_ENV=py37
   - TOX_ENV=flake8
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install mopidy
+  -
 install:
   - "pip install tox"
 
