@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
@@ -81,8 +81,8 @@ class RadioNetClient(object):
 
         try:
             tmp_str = self.session.get(self.base_url)
-            m = re.search('apiKey ?= ?[\'|"](.*)[\'|"];', tmp_str.content)
-            self.api_key = m.group(1).encode()
+            m = re.search('apiKey ?= ?[\'|"](.*)[\'|"];', tmp_str.content.decode())
+            self.api_key = m.group(1)
             logger.info('Radio.net: APIKEY %s' % self.api_key)
         except Exception:
             logger.error('Radio.net: Failed to connect %s retrying'

@@ -1,17 +1,16 @@
 ****************************
 Mopidy-RadioNet
 ****************************
-
 .. image:: https://img.shields.io/pypi/v/Mopidy-RadioNet.svg?style=flat
     :target: https://pypi.python.org/pypi/Mopidy-RadioNet/
     :alt: Latest PyPI version
 
-.. image:: https://img.shields.io/travis/blackberrymamba/mopidy-radionet/master.svg?style=flat
-    :target: https://travis-ci.org/blackberrymamba/mopidy-radionet
+.. image:: https://img.shields.io/travis/plintx/mopidy-radionet/master.svg?style=flat
+    :target: https://travis-ci.org/plintx/mopidy-radionet
     :alt: Travis CI build status
 
-.. image:: https://img.shields.io/coveralls/blackberrymamba/mopidy-radionet/master.svg?style=flat
-   :target: https://coveralls.io/r/blackberrymamba/mopidy-radionet
+.. image:: https://img.shields.io/coveralls/plintx/mopidy-radionet/master.svg?style=flat
+   :target: https://coveralls.io/r/plintx/mopidy-radionet
    :alt: Test coverage
 
 Mopidy extension for radio.net
@@ -51,6 +50,10 @@ Project resources
 
 Changelog
 =========
+v0.2.0 Python 3
+----------------------------------------
+
+- Migration to Python 3.7
 
 v0.1.0 (UNRELEASED)
 ----------------------------------------

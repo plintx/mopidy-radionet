@@ -27,7 +27,6 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
             album = Album(
                 artists=[artist],
-                images=[radio_data.image],
                 name=radio_data.description + ' / ' + radio_data.continent +
                 ' / ' + radio_data.country + ' - ' + radio_data.city,
                 uri='radionet:station:%s' % (identifier))
