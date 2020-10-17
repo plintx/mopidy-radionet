@@ -17,7 +17,5 @@ def test_get_config_schema():
 
     schema = ext.get_config_schema()
 
-    assert 'username' in schema
-    assert 'password' in schema
     assert 'language' in schema
     assert 'min_bitrate' in schema

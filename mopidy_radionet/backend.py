@@ -26,8 +26,6 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
         self.library = RadioNetLibraryProvider(backend=self)
 
         self.uri_schemes = ['radionet']
-        self.username = config['radionet']['username']
-        self.password = config['radionet']['password']
 
         self.radionet.min_bitrate = int(config['radionet']['min_bitrate'])
         self.radionet.set_lang(str(config['radionet']['language']))
@@ -43,9 +41,6 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
             self.set_update_timeout()
 
         if force or time.time() > self.update_timeout:
-            self.radionet.login(self.username, self.password)
-            self.radionet.get_bookmarks()
-            self.radionet.get_my_stations_streams()
             self.radionet.get_top_stations()
             self.radionet.get_local_stations()
             self.set_update_timeout()

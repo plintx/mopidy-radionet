@@ -35,8 +35,6 @@ Mopidy-RadioNet to your Mopidy configuration file::
 
     [radionet]
     enabled = true
-    username = alice666.9
-    password = secret
     language = pl # or net, de, at, fr, pt, es, dk, se, it
     min_bitrate = 96
 
@@ -50,6 +48,10 @@ Project resources
 
 Changelog
 =========
+
+v0.2.1 Changes in radio.net
+----------------------------------------
+
 v0.2.0 Python 3
 ----------------------------------------
 

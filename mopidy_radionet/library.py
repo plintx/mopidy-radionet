@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 class RadioNetLibraryProvider(backend.LibraryProvider):
     root_directory = Ref.directory(uri='radionet:root', name='Radio.net')
 
+    def __init__(self, backend):
+        super().__init__(backend)
+
     def lookup(self, uri):
 
         if not uri.startswith('radionet:'):
@@ -28,7 +31,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             album = Album(
                 artists=[artist],
                 name=radio_data.description + ' / ' + radio_data.continent +
-                ' / ' + radio_data.country + ' - ' + radio_data.city,
+                     ' / ' + radio_data.country + ' - ' + radio_data.city,
                 uri='radionet:station:%s' % (identifier))
 
             track = Track(
@@ -38,7 +41,6 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                 genre=radio_data.genres,
                 comment=radio_data.description,
                 uri=radio_data.stream_url)
-
             return [track]
 
         return []
@@ -50,11 +52,6 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
         tracks = []
         variant, identifier = self.parse_uri(uri)
         if variant == 'root':
-            if self.backend.radionet.fav_stations:
-                directories.append(
-                    self.ref_directory(
-                        "radionet:category:favstations", "My stations")
-                )
             if self.backend.radionet.local_stations:
                 directories.append(
                     self.ref_directory(
@@ -65,23 +62,19 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                     self.ref_directory(
                         "radionet:category:top100", "Top 100")
                 )
+            return directories
         elif variant == 'category' and identifier:
-            if identifier == "favstations":
-                for station in self.backend.radionet.fav_stations:
-                    tracks.append(self.station_to_ref(station))
             if identifier == "localstations":
                 for station in self.backend.radionet.local_stations:
                     tracks.append(self.station_to_ref(station))
             if identifier == "top100":
                 for station in self.backend.radionet.top_stations:
                     tracks.append(self.station_to_ref(station))
+            tracks.sort(key=lambda ref: ref.name)
+            return tracks
         else:
             logger.debug('Unknown URI: %s', uri)
             return []
-
-        tracks.sort(key=lambda ref: ref.name)
-
-        return directories + tracks
 
     def search(self, query=None, uris=None, exact=False):
 
@@ -104,7 +97,8 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
     def station_to_track(self, station):
         ref = self.station_to_ref(station)
-        return Track(uri=ref.uri, name=ref.name)
+        return Track(uri=ref.uri, name=ref.name, album=Album(uri=ref.uri, name=ref.name),
+                     artists=[Artist(uri=ref.uri, name=ref.name)])
 
     def ref_directory(self, uri, name):
         return Ref.directory(uri=uri, name=name)

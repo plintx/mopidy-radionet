@@ -6,7 +6,7 @@ import os
 from mopidy import config, ext
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 
 logger = logging.getLogger(__name__)
@@ -24,8 +24,6 @@ class Extension(ext.Extension):
 
     def get_config_schema(self):
         schema = super(Extension, self).get_config_schema()
-        schema['username'] = config.String()
-        schema['password'] = config.Secret()
         schema['language'] = config.String()
         schema['min_bitrate'] = config.String()
         return schema
