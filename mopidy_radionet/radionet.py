@@ -74,9 +74,10 @@ class RadioNetClient(object):
 
         tmp_str = self.session.get(self.base_url)
 
-        apiprefix_search = re.search('apiPrefix ?: ?\'(.*)\',?', tmp_str.content.decode())
-        self.api_prefix = apiprefix_search.group(1)
-        self.api_prefix = "https://api.radio." + 'de' + "/info/v2"
+        # apiprefix_search = re.search('apiPrefix ?: ?\'(.*)\',?', tmp_str.content.decode())
+        # self.api_prefix = apiprefix_search.group(1)
+        lang = self.base_url.split('.')[-1].replace('/', '')
+        self.api_prefix = "https://api.radio." + lang + "/info/v2"
 
         apikey_search = re.search('apiKey ?: ?[\'|"](.*)[\'|"],?', tmp_str.content.decode())
         self.api_key = apikey_search.group(1)
