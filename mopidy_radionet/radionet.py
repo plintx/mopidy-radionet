@@ -76,6 +76,7 @@ class RadioNetClient(object):
 
         apiprefix_search = re.search('apiPrefix ?: ?\'(.*)\',?', tmp_str.content.decode())
         self.api_prefix = apiprefix_search.group(1)
+        self.api_prefix = "https://api.radio." + 'de' + "/info/v2"
 
         apikey_search = re.search('apiKey ?: ?[\'|"](.*)[\'|"],?', tmp_str.content.decode())
         self.api_key = apikey_search.group(1)
@@ -169,6 +170,37 @@ class RadioNetClient(object):
 
             logger.info('Radio.net: Loaded ' + str(len(self.local_stations)) +
                         ' local stations.')
+
+    def set_favorites(self, favorites):
+        self.favortes = favorites
+
+    def get_favorites(self):
+        self.favorite_stations = []
+
+        for station in self.favortes:
+            api_suffix = '/search/stationsonly'
+            url_params = {
+                'apikey': self.api_key,
+                '_': self.current_milli_time(),
+                'query': station,
+                'pageindex': 1,
+            }
+
+            response = self.do_post(api_suffix, url_params)
+
+            if response.status_code is not 200:
+                logger.error('Radio.net: Search error ' + response.text)
+            else:
+                logger.debug('Radio.net: Done search')
+                json = response.json()
+
+                # take only the first match!
+                station = self.get_station_by_id(json['categories'][0]['matches'][0]['id'])
+                if station and station.playable:
+                    self.favorite_stations.append(station)
+
+        logger.info('Radio.net: Loaded ' + str(len(self.favorite_stations)) +
+                    ' favorite stations.')
 
     def get_top_stations(self):
         self.top_stations = []
