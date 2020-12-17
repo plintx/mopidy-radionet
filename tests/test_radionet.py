@@ -26,6 +26,13 @@ class RadioNetClientTest(unittest.TestCase):
         radionet.do_search("radio ram")
         self.assertGreater(len(radionet.search_results), 0)
 
+    def test_get_favorites(self):
+        test_favorites = ("Rock Antenne", "radio ram")
+        radionet = RadioNetClient()
+        radionet.set_favorites(test_favorites)
+        radionet.get_favorites()
+        self.assertEqual(len(radionet.favorite_stations), len(test_favorites))
+
 
 if __name__ == "__main__":
     unittest.main()
