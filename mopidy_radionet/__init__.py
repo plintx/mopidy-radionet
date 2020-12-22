@@ -6,7 +6,7 @@ import os
 from mopidy import config, ext
 
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 
 logger = logging.getLogger(__name__)
@@ -26,6 +26,7 @@ class Extension(ext.Extension):
         schema = super(Extension, self).get_config_schema()
         schema['language'] = config.String()
         schema['min_bitrate'] = config.String()
+        schema['favorite_stations'] = config.List()
         return schema
 
     def setup(self, registry):

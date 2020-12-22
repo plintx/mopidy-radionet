@@ -62,6 +62,11 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                     self.ref_directory(
                         "radionet:category:top100", "Top 100")
                 )
+            if self.backend.radionet.favorite_stations:
+                directories.append(
+                    self.ref_directory(
+                        "radionet:category:favorites", "Favorites")
+                )
             return directories
         elif variant == 'category' and identifier:
             if identifier == "localstations":
@@ -69,6 +74,9 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                     tracks.append(self.station_to_ref(station))
             if identifier == "top100":
                 for station in self.backend.radionet.top_stations:
+                    tracks.append(self.station_to_ref(station))
+            if identifier == "favorites":
+                for station in self.backend.radionet.favorite_stations:
                     tracks.append(self.station_to_ref(station))
             tracks.sort(key=lambda ref: ref.name)
             return tracks
