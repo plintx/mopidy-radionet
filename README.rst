@@ -43,35 +43,36 @@ Mopidy-RadioNet to your Mopidy configuration file::
       'thetrip'
       'nectarine'
       
-* `enabled` determines whether the plugin is enabled. Disabling the
+* ``enabled`` determines whether the plugin is enabled. Disabling the
   plugin is a simple case of changing this to `false` and restarting
   Mopidy.
 
-* `language` determines the language of text information such at station
+* ``language`` determines the language of text information such at station
   descriptions. The following options are:
-  * net - defaults to English
-  * at  - Austrian
-  * de  - German
-  * dk  - Danish
-  * es  - Spanish
-  * fr  - French
-  * it  - Italian
-  * pl  - Polish
-  * pt  - Portuguese
-  * se  - Swedish
   
-* `min_bitrate` sets the minimum desirable bitrate of streams. Typically
+  - net - defaults to English
+  - at - Austrian
+  - de - German
+  - dk - Danish
+  - es - Spanish
+  - fr - French
+  - it - Italian
+  - pl - Polish
+  - pt - Portuguese
+  - se - Swedish
+  
+* ``min_bitrate`` sets the minimum desirable bitrate of streams. Typically
   higher bitrates mean better quality (or at least, that's the idea),
   but take up more bandwidth. If your stream of choice keeps halting, it
   might help to turn this down a little.
   
-* `favorite_stations` lets you define a list of your favorite stations
+* ``favorite_stations`` lets you define a list of your favorite stations
   for quick access. To add a station to the list, you need to add its
   slug, the part that comes after the domain name in the station's URL.
-  As an example, BBC Radio 1 can be found at `radio.net/s/bbcradio1`.
+  As an example, BBC Radio 1 can be found at ``radio.net/s/bbcradio1``.
   Therefore, to add the station to your favourites, you would take the
-  part after the final forward slash - `bbcradio1` - and add that to
-  `favorite_stations`
+  part after the final forward slash - ``bbcradio1`` - and add that to
+  ``favorite_stations``
 
 Project resources
 =================
