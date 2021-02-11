@@ -47,19 +47,19 @@ Mopidy-RadioNet to your Mopidy configuration file::
   plugin is a simple case of changing this to `false` and restarting
   Mopidy.
 
-* ``language`` determines the language of text information such at station
+* ``language`` determines the language of text information such as station
   descriptions. The following options are:
   
-  - net - defaults to English
-  - at - Austrian
-  - de - German
-  - dk - Danish
-  - es - Spanish
-  - fr - French
-  - it - Italian
-  - pl - Polish
-  - pt - Portuguese
-  - se - Swedish
+  - ``net`` - defaults to English
+  - ``at`` - Austrian
+  - ``de`` - German
+  - ``dk`` - Danish
+  - ``es`` - Spanish
+  - ``fr`` - French
+  - ``it`` - Italian
+  - ``pl`` - Polish
+  - ``pt`` - Portuguese
+  - ``se`` - Swedish
   
 * ``min_bitrate`` sets the minimum desirable bitrate of streams. Typically
   higher bitrates mean better quality (or at least, that's the idea),
