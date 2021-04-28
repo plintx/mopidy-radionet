@@ -85,6 +85,8 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             return []
 
     def search(self, query=None, uris=None, exact=False):
+        if 'any' not in query:
+            return None
 
         result = []
 
