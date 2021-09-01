@@ -30,7 +30,6 @@ class RadioNetClient(object):
     base_url = 'https://radio.net/'
 
     session = requests.Session()
-    api_key = None
     api_prefix = None
     min_bitrate = 96
     max_top_stations = 100
@@ -49,6 +48,8 @@ class RadioNetClient(object):
             proxy = httpclient.format_proxy(proxy_config)
             self.session.proxies.update({'http': proxy, 'https': proxy})
 
+        if user_agent is None:
+            user_agent = "Mopidy Radio Client"
         full_user_agent = httpclient.format_user_agent(user_agent)
         self.session.headers.update({'user-agent': full_user_agent})
         self.session.headers.update({'cache-control': 'no-cache'})
@@ -65,43 +66,16 @@ class RadioNetClient(object):
         self.local_stations = []
         self.search_results = []
 
-    def current_milli_time(self):
-        return int(round(time.time() * 1000))
-
-    def get_api_key(self):
-        if self.api_key is not None:
+    def set_api_prefix(self):
+        if self.api_prefix is not None:
             return
 
         tmp_str = self.session.get(self.base_url)
-
-        # apiprefix_search = re.search('apiPrefix ?: ?\'(.*)\',?', tmp_str.content.decode())
-        # self.api_prefix = apiprefix_search.group(1)
         lang = self.base_url.split('.')[-1].replace('/', '')
         self.api_prefix = "https://api.radio." + lang + "/info/v2"
 
-        apikey_search = re.search('apiKey ?: ?[\'|"](.*)[\'|"],?', tmp_str.content.decode())
-        self.api_key = apikey_search.group(1)
-
-        logger.info('Radio.net: APIPREFIX %s' % self.api_prefix)
-        logger.info('Radio.net: APIKEY %s' % self.api_key)
-
-    def do_post(self, api_sufix, url_params=None, payload=None):
-        self.get_api_key()
-
-        if 'apikey' in url_params.keys():
-            url_params['apikey'] = self.api_key
-
-        response = self.session.post(self.api_prefix + api_sufix,
-                                     params=url_params, data=payload)
-
-        return response
-
     def do_get(self, api_sufix, url_params=None):
-        self.get_api_key()
-
-        if 'apikey' in url_params.keys():
-            url_params['apikey'] = self.api_key
-
+        self.set_api_prefix()
         response = self.session.get(self.api_prefix + api_sufix,
                                     params=url_params)
 
@@ -112,8 +86,6 @@ class RadioNetClient(object):
         api_suffix = '/search/station'
 
         url_params = {
-            'apikey': self.api_key,
-            '_': self.current_milli_time(),
             'station': station_id,
         }
 
@@ -149,13 +121,11 @@ class RadioNetClient(object):
         api_suffix = '/search/localstations'
 
         url_params = {
-            'apikey': self.api_key,
-            '_': self.current_milli_time(),
             'pageindex': 1,
             'sizeperpage': 100,
         }
 
-        response = self.do_post(api_suffix, url_params)
+        response = self.do_get(api_suffix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get local stations error. ' +
@@ -181,13 +151,11 @@ class RadioNetClient(object):
         for station in self.favortes:
             api_suffix = '/search/stationsonly'
             url_params = {
-                'apikey': self.api_key,
-                '_': self.current_milli_time(),
                 'query': station,
                 'pageindex': 1,
             }
 
-            response = self.do_post(api_suffix, url_params)
+            response = self.do_get(api_suffix, url_params)
 
             if response.status_code is not 200:
                 logger.error('Radio.net: Search error ' + response.text)
@@ -208,13 +176,11 @@ class RadioNetClient(object):
         api_suffix = '/search/topstations'
 
         url_params = {
-            'apikey': self.api_key,
-            '_': self.current_milli_time(),
             'pageindex': 1,
             'sizeperpage': 100,
         }
 
-        response = self.do_post(api_suffix, url_params)
+        response = self.do_get(api_suffix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Get top stations error. ' + response.text)
@@ -236,13 +202,11 @@ class RadioNetClient(object):
 
         api_suffix = '/search/stationsonly'
         url_params = {
-            'apikey': self.api_key,
-            '_': self.current_milli_time(),
             'query': query_string,
             'pageindex': page_index,
         }
 
-        response = self.do_post(api_suffix, url_params)
+        response = self.do_get(api_suffix, url_params)
 
         if response.status_code is not 200:
             logger.error('Radio.net: Search error ' + response.text)
