@@ -5,6 +5,7 @@ import time
 from mopidy import backend
 
 import pykka
+import re
 
 import mopidy_radionet
 
@@ -24,6 +25,9 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
                 mopidy_radionet.__version__))
 
         self.library = RadioNetLibraryProvider(backend=self)
+        self.playback = RadioNetPlaybackProvider(
+            audio=audio, backend=self
+        )
 
         self.uri_schemes = ['radionet']
 
@@ -46,3 +50,17 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
             self.radionet.get_local_stations()
             self.radionet.get_favorites()
             self.set_update_timeout()
+
+class RadioNetPlaybackProvider(backend.PlaybackProvider):
+
+    def is_live(self, uri):
+        return True
+
+    def translate_uri(self, uri):
+        identifier = re.findall(r'^radionet:track:?([a-z0-9]+|\d+)?$', uri)
+        if identifier:
+            radio_data = self.backend.radionet.get_station_by_id(identifier)
+            if radio_data:
+                return radio_data.stream_url
+
+        return None

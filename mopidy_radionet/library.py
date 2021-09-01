@@ -22,7 +22,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
         variant, identifier = self.parse_uri(uri)
 
-        if variant == 'station':
+        if variant == 'station' or variant == 'track':
             identifier = int(identifier)
             radio_data = self.backend.radionet.get_station_by_id(identifier)
 
@@ -40,7 +40,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                 name=radio_data.name,
                 genre=radio_data.genres,
                 comment=radio_data.description,
-                uri=radio_data.stream_url)
+                uri='radionet:track:%s' % (identifier))
             return [track]
 
         return []
