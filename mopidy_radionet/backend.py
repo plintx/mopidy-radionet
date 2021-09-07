@@ -1,11 +1,10 @@
 from __future__ import unicode_literals
 
+import re
 import time
 
-from mopidy import backend
-
 import pykka
-import re
+from mopidy import backend
 
 import mopidy_radionet
 
@@ -19,21 +18,24 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
     def __init__(self, config, audio):
         super(RadioNetBackend, self).__init__()
         self.radionet = RadioNetClient(
-            config['proxy'],
-            "%s/%s" % (
-                mopidy_radionet.Extension.dist_name,
-                mopidy_radionet.__version__))
-
-        self.library = RadioNetLibraryProvider(backend=self)
-        self.playback = RadioNetPlaybackProvider(
-            audio=audio, backend=self
+            config["proxy"],
+            "%s/%s"
+            % (mopidy_radionet.Extension.dist_name, mopidy_radionet.__version__),
         )
 
-        self.uri_schemes = ['radionet']
+        self.library = RadioNetLibraryProvider(backend=self)
+        self.playback = RadioNetPlaybackProvider(audio=audio, backend=self)
 
-        self.radionet.min_bitrate = int(config['radionet']['min_bitrate'])
-        self.radionet.set_lang(str(config['radionet']['language']))
-        self.radionet.set_favorites(tuple(file_ext.lower() for file_ext in config["radionet"]["favorite_stations"]))
+        self.uri_schemes = ["radionet"]
+
+        self.radionet.min_bitrate = int(config["radionet"]["min_bitrate"])
+        self.radionet.set_lang(str(config["radionet"]["language"]))
+        self.radionet.set_apikey(str(config["radionet"]["api_key"]))
+        self.radionet.set_favorites(
+            tuple(
+                file_ext.lower() for file_ext in config["radionet"]["favorite_stations"]
+            )
+        )
 
     def set_update_timeout(self, minutes=2):
         self.update_timeout = time.time() + 60 * minutes
@@ -51,13 +53,13 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
             self.radionet.get_favorites()
             self.set_update_timeout()
 
-class RadioNetPlaybackProvider(backend.PlaybackProvider):
 
+class RadioNetPlaybackProvider(backend.PlaybackProvider):
     def is_live(self, uri):
         return True
 
     def translate_uri(self, uri):
-        identifier = re.findall(r'^radionet:track:?([a-z0-9]+|\d+)?$', uri)
+        identifier = re.findall(r"^radionet:track:?([a-z0-9]+|\d+)?$", uri)
         if identifier:
             radio_data = self.backend.radionet.get_station_by_id(identifier)
             if radio_data:

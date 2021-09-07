@@ -1,38 +1,28 @@
-import unittest
-
-from mopidy_radionet.radionet import RadioNetClient
+from unittest import mock
 
 
-class RadioNetClientTest(unittest.TestCase):
-
-    def test_get_api_key(self):
-        radionet = RadioNetClient()
-        radionet.get_api_key()
-
-        self.assertIsNotNone(radionet.api_key)
-
-    def test_get_top_stations(self):
-        radionet = RadioNetClient()
-        radionet.get_top_stations()
-        self.assertGreater(len(radionet.top_stations), 0)
-
-    def test_get_local_stations(self):
-        radionet = RadioNetClient()
-        radionet.get_local_stations()
-        self.assertGreater(len(radionet.local_stations), 0)
-
-    def test_do_search(self):
-        radionet = RadioNetClient()
-        radionet.do_search("radio ram")
-        self.assertGreater(len(radionet.search_results), 0)
-
-    def test_get_favorites(self):
-        test_favorites = ("Rock Antenne", "radio ram")
-        radionet = RadioNetClient()
-        radionet.set_favorites(test_favorites)
-        radionet.get_favorites()
-        self.assertEqual(len(radionet.favorite_stations), len(test_favorites))
+def test_get_genres(radionet):
+    genres = radionet.get_genres();
+    assert len(genres) > 0
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_get_top_stations(radionet):
+    result = radionet.get_category('topstations', 1)
+    assert len(result) > 0
+
+
+def test_get_local_stations(radionet):
+    result = radionet.get_category('localstations', 1)
+    assert len(result) > 0
+
+
+def test_do_search(radionet):
+    result = radionet.do_search("radio ram")
+    assert len(result) > 0
+
+
+def test_get_favorites(radionet):
+    test_favorites = ("Rock Antenne", "radio ram")
+    radionet.set_favorites(test_favorites)
+    result = radionet.get_favorites()
+    assert len(result) == len(test_favorites)
