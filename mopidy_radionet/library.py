@@ -209,9 +209,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
         result = []
 
-        self.backend.radionet.do_search(" ".join(query["any"]))
-
-        for station in self.backend.radionet.search_results:
+        for station in self.backend.radionet.do_search(" ".join(query["any"])):
             result.append(self.station_to_track(station))
 
         return SearchResult(tracks=result)

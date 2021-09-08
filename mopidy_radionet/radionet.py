@@ -293,7 +293,7 @@ class RadioNetClient(object):
         )
         return self.set_cache(cache_key, favorite_stations, 1440)
 
-    def do_search(self, query_string, page_index=1, search_results=[]):
+    def do_search(self, query_string, page_index=1, search_results=None):
 
         api_suffix = "/search/stationsonly"
         url_params = {
@@ -308,6 +308,8 @@ class RadioNetClient(object):
             logger.error("Radio.net: Search error " + response.text)
         else:
             logger.debug("Radio.net: Done search")
+            if search_results is None:
+                search_results = []
             json = response.json()
             for match in json["categories"][0]["matches"]:
                 station = self.get_station_by_id(match["id"])

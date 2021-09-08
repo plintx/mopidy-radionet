@@ -140,3 +140,15 @@ def test_browse_countries(library):
 def test_browse_favorites(library):
     results = library.browse('radionet:favorites');
     assert 1 == len(results)
+
+
+def test_search(library):
+    result = library.search({'any': ['radio ram']})
+
+    assert len(result.tracks) > 0
+
+    old_length = len(result.tracks)
+
+    result = library.search({'any': ['radio ram']})
+
+    assert len(result.tracks) == old_length
