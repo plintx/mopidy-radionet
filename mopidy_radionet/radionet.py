@@ -259,34 +259,37 @@ class RadioNetClient(object):
         self.favorites = favorites
 
     def get_favorites(self):
-        logger.error(str(self.favorites))
         cache_key = "favorites"
         cache = self.get_cache(cache_key)
         if cache is not None:
             return cache
 
         favorite_stations = []
-        for station in self.favorites:
-            logger.error(str(station))
-            api_suffix = "/search/stationsonly"
-            url_params = {
-                "query": station,
-                "pageindex": 1,
-            }
-            response = self.do_get(api_suffix, url_params)
+        for station_slug in self.favorites:
 
-            if response.status_code != 200:
-                logger.error("Radio.net: Search error " + response.text)
-            else:
-                logger.debug("Radio.net: Done search")
-                json = response.json()
+            station = self.get_station_by_id(station_slug)
 
-                # take only the first match!
-                station = self.get_station_by_id(
-                    json["categories"][0]["matches"][0]["id"]
-                )
-                if station and station.playable:
-                    favorite_stations.append(station)
+            if station is False:
+                api_suffix = "/search/stationsonly"
+                url_params = {
+                    "query": station_slug,
+                    "pageindex": 1,
+                }
+                response = self.do_get(api_suffix, url_params)
+
+                if response.status_code != 200:
+                    logger.error("Radio.net: Search error " + response.text)
+                else:
+                    logger.debug("Radio.net: Done search")
+                    json = response.json()
+                    logger.error(response.text)
+                    # take only the first match!
+                    station = self.get_station_by_id(
+                        json["categories"][0]["matches"][0]["id"]
+                    )
+
+            if station and station.playable:
+                favorite_stations.append(station)
 
         logger.info(
             "Radio.net: Loaded " + str(len(favorite_stations)) + " favorite stations."

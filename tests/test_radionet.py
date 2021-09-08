@@ -22,7 +22,9 @@ def test_do_search(radionet):
 
 
 def test_get_favorites(radionet):
-    test_favorites = ("Rock Antenne", "radio ram")
+    test_favorites = ("Rock Antenne", "radio ram", "eska")
     radionet.set_favorites(test_favorites)
     result = radionet.get_favorites()
     assert len(result) == len(test_favorites)
+
+    assert result[2].name == 'Eska'
