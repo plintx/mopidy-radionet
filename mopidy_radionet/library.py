@@ -28,15 +28,21 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
             artist = Artist(name=radio_data.name)
 
-            album = Album(
-                artists=[artist],
-                name=radio_data.description
-                + " / "
+            name = ""
+            if radio_data.description is not None:
+                name = radio_data.description + " / "
+            name = (
+                name
                 + radio_data.continent
                 + " / "
                 + radio_data.country
                 + " - "
-                + radio_data.city,
+                + radio_data.city
+            )
+
+            album = Album(
+                artists=[artist],
+                name=name,
                 uri="radionet:station:%s" % (identifier),
             )
 
@@ -55,8 +61,6 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
     def browse(self, uri):
 
         category, page, value, sorting = self.parse_uri(uri)
-
-        logger.error("Uri %s", uri)
 
         if category == "root":
             return self._browse_root()
@@ -87,21 +91,12 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             items = self._get_favorites()
             if items:
                 for item in items:
-                    result.append(
-                        self.ref_track(
-                            "radionet:station:{0}".format(str(item.id)), item.name
-                        )
-                    )
+                    result.append(self.station_to_ref(item))
         elif category == "topstations":
             items = self._get_topstations()
             if items:
                 for item in items:
-                    result.append(
-                        self.ref_track(
-                            "radionet:station:{0}".format(item["id"]),
-                            item["name"]["value"],
-                        )
-                    )
+                    result.append(self.station_to_ref(item))
         elif not page:
             pages = self._get_category_pages(category)
             for index in range(pages):
@@ -115,12 +110,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             items = self._get_category(category, page)
             if items:
                 for item in items:
-                    result.append(
-                        self.ref_track(
-                            "radionet:station:{0}".format(item["id"]),
-                            item["name"]["value"],
-                        )
-                    )
+                    result.append(self.station_to_ref(item))
         return result
 
     def _browse_sorted_category(self, category, value, sorting, page):
@@ -162,12 +152,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             items = self._get_sorted_category(category, value, sorting, page)
             if items:
                 for item in items:
-                    result.append(
-                        self.ref_track(
-                            "radionet:station:{0}".format(item["id"]),
-                            item["name"]["value"],
-                        )
-                    )
+                    result.append(self.station_to_ref(item))
         return result
 
     def _get_genres(self):

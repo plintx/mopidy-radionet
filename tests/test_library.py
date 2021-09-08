@@ -142,6 +142,7 @@ def test_browse_favorites(library):
     assert 1 == len(results)
 
 
+
 def test_search(library):
     result = library.search({'any': ['radio ram']})
 
@@ -152,3 +153,12 @@ def test_search(library):
     result = library.search({'any': ['radio ram']})
 
     assert len(result.tracks) == old_length
+
+
+def test_lookup(library):
+
+    results = library.browse('radionet:favorites');
+    assert 1 == len(results)
+
+    for result in results:
+        assert library.lookup(result.uri) is not None

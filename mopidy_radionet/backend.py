@@ -61,8 +61,6 @@ class RadioNetPlaybackProvider(backend.PlaybackProvider):
     def translate_uri(self, uri):
         identifier = re.findall(r"^radionet:track:?([a-z0-9]+|\d+)?$", uri)
         if identifier:
-            radio_data = self.backend.radionet.get_station_by_id(identifier)
-            if radio_data:
-                return radio_data.stream_url
+            return self.backend.radionet.get_stream_url(identifier[0])
 
         return None
