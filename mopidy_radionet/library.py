@@ -99,13 +99,19 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                     result.append(self.station_to_ref(item))
         elif not page:
             pages = self._get_category_pages(category)
-            for index in range(pages):
-                result.append(
-                    self.ref_directory(
-                        "radionet:{0}:{1}".format(category, str(index + 1)),
-                        str(index + 1),
+            if pages == 1:
+                items = self._get_category(category, 1)
+                if items:
+                    for item in items:
+                        result.append(self.station_to_ref(item))
+            else:
+                for index in range(pages):
+                    result.append(
+                        self.ref_directory(
+                            "radionet:{0}:{1}".format(category, str(index + 1)),
+                            str(index + 1),
+                        )
                     )
-                )
         else:
             items = self._get_category(category, page)
             if items:
@@ -139,15 +145,21 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             )
         elif not page:
             pages = self._get_sorted_category_pages(category, value)
-            for index in range(pages):
-                result.append(
-                    self.ref_directory(
-                        "radionet:{0}:{1}:{2}:{3}".format(
-                            category, value, sorting, str(index + 1)
-                        ),
-                        str(index + 1),
+            if pages == 1:
+                items = self._get_sorted_category(category, value, sorting, 1)
+                if items:
+                    for item in items:
+                        result.append(self.station_to_ref(item))
+            else:
+                for index in range(pages):
+                    result.append(
+                        self.ref_directory(
+                            "radionet:{0}:{1}:{2}:{3}".format(
+                                category, value, sorting, str(index + 1)
+                            ),
+                            str(index + 1),
+                        )
                     )
-                )
         else:
             items = self._get_sorted_category(category, value, sorting, page)
             if items:
