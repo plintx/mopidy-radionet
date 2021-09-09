@@ -37,22 +37,6 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
             )
         )
 
-    def set_update_timeout(self, minutes=2):
-        self.update_timeout = time.time() + 60 * minutes
-
-    def on_start(self):
-        self.set_update_timeout(0)
-
-    def refresh(self, force=False):
-        if self.update_timeout is None:
-            self.set_update_timeout()
-
-        if force or time.time() > self.update_timeout:
-            self.radionet.get_top_stations()
-            self.radionet.get_local_stations()
-            self.radionet.get_favorites()
-            self.set_update_timeout()
-
 
 class RadioNetPlaybackProvider(backend.PlaybackProvider):
     def is_live(self, uri):
