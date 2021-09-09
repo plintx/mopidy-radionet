@@ -26,7 +26,7 @@ class Extension(ext.Extension):
         schema["language"] = config.String()
         schema["min_bitrate"] = config.String()
         schema["api_key"] = config.String()
-        schema["favorite_stations"] = config.List()
+        schema["favorite_stations"] = config.List(True)
         return schema
 
     def setup(self, registry):

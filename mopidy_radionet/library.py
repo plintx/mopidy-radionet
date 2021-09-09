@@ -74,7 +74,6 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
     def _browse_root(self):
         directories = [
-            self.ref_directory("radionet:favorites", "Favorites"),
             self.ref_directory("radionet:topstations", "Top stations"),
             self.ref_directory("radionet:localstations", "Local stations"),
             self.ref_directory("radionet:genres", "Genres"),
@@ -83,6 +82,8 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             self.ref_directory("radionet:cities", "Cities"),
             self.ref_directory("radionet:countries", "Countries"),
         ]
+        if len(self.backend.radionet.favorites) > 0:
+            directories.insert(0, self.ref_directory("radionet:favorites", "Favorites"))
         return directories
 
     def _browse_category(self, category, page):
