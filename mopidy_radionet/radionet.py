@@ -20,7 +20,10 @@ class Station(object):
     genres = None
     name = None
     stream_url = None
-    image = None
+    image_tiny = None
+    image_small = None
+    image_medium = None
+    image_large = None
     description = None
     playable = False
 
@@ -155,7 +158,10 @@ class RadioNetClient(object):
         station.name = json["name"]
         station.slug = json["subdomain"]
         station.stream_url = self._get_stream_url(json["streamUrls"], self.min_bitrate)
-        station.image = json["logo100x100"]
+        station.image_tiny = json["logo44x44"]
+        station.image_small = json["logo100x100"]
+        station.image_medium= json["logo175x175"]
+        station.image_large = json["logo300x300"]
         station.description = json["shortDescription"]
         if json["playable"] == "PLAYABLE":
             station.playable = True
@@ -205,7 +211,9 @@ class RadioNetClient(object):
         else:
             station.description = ""
 
-        station.image = result["logo100x100"]
+        station.image_tiny = result["logo44x44"]
+        station.image_small = result["logo100x100"]
+        station.image_medium = result["logo175x175"]
 
         self.stations_by_id[station.id] = station
         self.stations_by_slug[station.slug] = station

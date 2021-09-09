@@ -4,7 +4,7 @@ import logging
 import re
 
 from mopidy import backend
-from mopidy.models import Album, Artist, Ref, SearchResult, Track
+from mopidy.models import Album, Artist, Ref, SearchResult, Track, Image
 
 logger = logging.getLogger(__name__)
 
@@ -71,6 +71,23 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
         else:
             logger.debug("Unknown URI: %s", uri)
             return []
+
+    def get_images(self, uris):
+        images = {}
+        for uri in uris:
+            variant, identifier, sorting, page = self.parse_uri(uri)
+            station = self.backend.radionet.get_station_by_id(identifier)
+            if station:
+                images[uri] = []
+                if station.image_tiny:
+                    images[uri].append(Image(uri=station.image_tiny, height=44, width=44))
+                if station.image_small:
+                    images[uri].append(Image(uri=station.image_small, height=100, width=100))
+                if station.image_medium:
+                    images[uri].append(Image(uri=station.image_medium, height=175, width=175))
+                if station.image_large:
+                    images[uri].append(Image(uri=station.image_large, height=300, width=300))
+        return images
 
     def _browse_root(self):
         directories = [
