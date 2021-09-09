@@ -33,7 +33,7 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
         self.radionet.set_apikey(str(config["radionet"]["api_key"]))
         self.radionet.set_favorites(
             tuple(
-                file_ext.lower() for file_ext in config["radionet"]["favorite_stations"]
+                file_ext.strip("'").lower() for file_ext in config["radionet"]["favorite_stations"]
             )
         )
 
