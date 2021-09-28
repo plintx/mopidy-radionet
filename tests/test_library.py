@@ -162,8 +162,15 @@ def test_search(library):
 
 def test_lookup(library):
 
-    results = library.browse('radionet:favorites');
+    results = library.browse('radionet:favorites')
     assert 1 == len(results)
 
     for result in results:
         assert library.lookup(result.uri) is not None
+
+
+def test_track_by_slug(library):
+
+    results = library.lookup('radionet:track:dancefm')
+    assert 1 == len(results)
+    assert results[0].uri == 'radionet:track:2180'

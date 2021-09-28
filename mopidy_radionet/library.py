@@ -23,8 +23,11 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
         variant, identifier, sorting, page = self.parse_uri(uri)
 
         if variant == "station" or variant == "track":
-            identifier = int(identifier)
-            radio_data = self.backend.radionet.get_station_by_id(identifier)
+            try:
+                identifier = int(identifier)
+                radio_data = self.backend.radionet.get_station_by_id(identifier)
+            except ValueError:
+                radio_data = self.backend.radionet.get_station_by_slug(identifier)
 
             artist = Artist(name=radio_data.name)
 
@@ -43,7 +46,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             album = Album(
                 artists=[artist],
                 name=name,
-                uri="radionet:station:%s" % (identifier),
+                uri="radionet:station:%s" % (radio_data.id),
             )
 
             track = Track(
@@ -52,7 +55,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                 name=radio_data.name,
                 genre=radio_data.genres,
                 comment=radio_data.description,
-                uri="radionet:track:%s" % (identifier),
+                uri="radionet:track:%s" % (radio_data.id),
             )
             return [track]
 
@@ -276,5 +279,15 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             if result:
                 category = result[0][0]
                 page = result[0][2]
+
+            else:
+                result = re.findall(
+                    r"^radionet:(track):([^:]+)$",
+                    uri,
+                )
+
+                if result:
+                    category = result[0][0]
+                    page = result[0][1]
 
         return category, page, value, sorting
