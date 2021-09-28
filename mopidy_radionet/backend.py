@@ -29,7 +29,7 @@ class RadioNetBackend(pykka.ThreadingActor, backend.Backend):
         self.uri_schemes = ["radionet"]
 
         self.radionet.min_bitrate = int(config["radionet"]["min_bitrate"])
-        self.radionet.set_lang(str(config["radionet"]["language"]))
+        self.radionet.set_lang(str(config["radionet"]["language"]).strip())
         self.radionet.set_apikey(str(config["radionet"]["api_key"]))
         self.radionet.set_favorites(
             tuple(

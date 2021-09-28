@@ -73,11 +73,14 @@ class RadioNetClient(object):
         self.session.close()
 
     def set_lang(self, lang):
+        if lang == "en":
+            lang = "net"
         langs = ["net", "de", "at", "fr", "pt", "es", "dk", "se", "it", "pl"]
+        self.base_url = "https://radio.net/"
         if lang in langs:
             self.base_url = self.base_url.replace(".net", "." + lang)
         else:
-            logging.error("Radio.net not supported language: %s", str(lang))
+            logging.warning("Radio.net not supported language: %s, defaulting to English", str(lang))
         self.update_prefix()
 
     def update_prefix(self):
