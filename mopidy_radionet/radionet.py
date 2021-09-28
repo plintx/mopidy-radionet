@@ -370,10 +370,15 @@ class RadioNetClient(object):
                     logger.debug("Radio.net: Done search")
                     json = response.json()
 
-                    # take only the first match!
-                    station = self._get_station_from_search_result(
-                        json["categories"][0]["matches"][0]
-                    )
+                    number_pages = int(json["numberPages"])
+                    logger.error(json)
+                    if number_pages != 0:
+                        # take only the first match!
+                        station = self._get_station_from_search_result(
+                            json["categories"][0]["matches"][0]
+                        )
+                    else:
+                        logger.warning("Radio.net: No results for %s", station_slug)
 
             if station and station.playable:
                 favorite_stations.append(station)

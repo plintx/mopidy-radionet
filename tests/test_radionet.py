@@ -26,9 +26,16 @@ def test_do_search(radionet):
 
 
 def test_get_favorites(radionet):
-    test_favorites = ("Rock Antenne", "radio ram", "eska", "dancefm")
+    test_favorites = ["Rock Antenne", "radio ram", "eska", "dancefm"]
     radionet.set_favorites(test_favorites)
     result = radionet.get_favorites()
     assert len(result) == len(test_favorites)
 
     assert result[2].name == 'Eska'
+
+
+def test_favorites_broken_slug(radionet):
+    test_favorites = ["radio357"]
+    radionet.set_favorites(test_favorites)
+    result = radionet.get_favorites()
+    assert len(result) == 0
