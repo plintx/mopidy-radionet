@@ -372,7 +372,7 @@ class RadioNetClient(object):
                     json = response.json()
 
                     number_pages = int(json["numberPages"])
-                    logger.error(json)
+
                     if number_pages != 0:
                         # take only the first match!
                         station = self._get_station_from_search_result(

@@ -25,6 +25,7 @@ def test_do_search(radionet):
 
 
 def test_get_favorites(radionet):
+    radionet.cache = {};
     test_favorites = ["Rock Antenne", "radio ram", "eska", "dancefm"]
     radionet.set_favorites(test_favorites)
     result = radionet.get_favorites()
@@ -34,6 +35,7 @@ def test_get_favorites(radionet):
 
 
 def test_favorites_broken_slug(radionet):
+    radionet.cache = {};
     test_favorites = ["radio357"]
     radionet.set_favorites(test_favorites)
     result = radionet.get_favorites()
