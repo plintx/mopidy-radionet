@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
 
 import re
-import time
-
 import pykka
 from mopidy import backend
 

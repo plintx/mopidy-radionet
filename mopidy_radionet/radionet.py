@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import logging
-import re
 import time
 
 import requests
@@ -84,7 +83,6 @@ class RadioNetClient(object):
         self.update_prefix()
 
     def update_prefix(self):
-        tmp_str = self.session.get(self.base_url)
         lang = self.base_url.split(".")[-1].replace("/", "")
         self.api_prefix = "https://api.radio." + lang + "/info/v2"
 
@@ -163,7 +161,7 @@ class RadioNetClient(object):
         station.stream_url = self._get_stream_url(json["streamUrls"], self.min_bitrate)
         station.image_tiny = json["logo44x44"]
         station.image_small = json["logo100x100"]
-        station.image_medium= json["logo175x175"]
+        station.image_medium = json["logo175x175"]
         station.image_large = json["logo300x300"]
         station.description = json["shortDescription"]
         if json["playable"] == "PLAYABLE":
@@ -446,7 +444,7 @@ class RadioNetClient(object):
 class CacheItem(object):
     def __init__(self, value, expires=10):
         self._value = value
-        self._expires = expires = time.time() + expires * 60
+        self._expires = time.time() + expires * 60
 
     def expired(self):
         return self._expires < time.time()

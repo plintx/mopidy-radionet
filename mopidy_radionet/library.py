@@ -6,6 +6,7 @@ import re
 from mopidy import backend
 from mopidy.models import Album, Artist, Ref, SearchResult, Track, Image
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,7 +47,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
             album = Album(
                 artists=[artist],
                 name=name,
-                uri="radionet:station:%s" % (radio_data.id),
+                uri="radionet:station:%s" % radio_data.id,
             )
 
             track = Track(
@@ -55,7 +56,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
                 name=radio_data.name,
                 genre=radio_data.genres,
                 comment=radio_data.description,
-                uri="radionet:track:%s" % (radio_data.id),
+                uri="radionet:track:%s" % radio_data.id,
             )
             return [track]
 
@@ -234,7 +235,7 @@ class RadioNetLibraryProvider(backend.LibraryProvider):
 
     def station_to_ref(self, station):
         return Ref.track(
-            uri="radionet:station:%s" % (station.id),
+            uri="radionet:station:%s" % station.id,
             name=station.name,
         )
 

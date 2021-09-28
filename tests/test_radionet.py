@@ -1,8 +1,7 @@
-from unittest import mock
 
 
 def test_get_genres(radionet):
-    genres = radionet.get_genres();
+    genres = radionet.get_genres()
     assert len(genres) > 0
 
 
