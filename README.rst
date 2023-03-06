@@ -37,6 +37,7 @@ Mopidy-RadioNet to your Mopidy configuration file::
     enabled = true
     language = pl # or net, de, at, fr, pt, es, dk, se, it
     min_bitrate = 96
+    api_key = valid_api_key
     favorite_stations =
       'bbcradio1'
       'bbcradio2'
@@ -77,8 +78,8 @@ Mopidy-RadioNet to your Mopidy configuration file::
 Project resources
 =================
 
-- `Source code <https://github.com/blackberrymamba/mopidy-radionet>`_
-- `Issue tracker <https://github.com/blackberrymamba/mopidy-radionet/issues>`_
+- `Source code <https://github.com/plintx/mopidy-radionet>`_
+- `Issue tracker <https://github.com/plintx/mopidy-radionet/issues>`_
 
 
 Changelog
